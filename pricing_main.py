@@ -83,7 +83,7 @@ if st.session_state.result_dfs:
 
 
         # 👉 Show conditional info just below All-in table & include in HTML summary
-        diff = round(abs(calculated - target_rate), 2)
+        diff = round(abs(of_value - target_rate), 2)
         if target_rate > calculated:
             message = f"💡 Additional Destination Charges: **${diff}**"
             st.info(message)
