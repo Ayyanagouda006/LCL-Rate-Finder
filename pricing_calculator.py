@@ -38,14 +38,15 @@ def build_port_lookup(file_path):
     return port_lookup
 
 def lclpricing(origin, destination, transhipment='Direct'):
-    import pandas as pd
     file_path = r"Data/LCL Pricing Navexel2 2.xlsx"
 
     # Load sheets
     of_direct = pd.read_excel(file_path, "OF Direct")
     dc_direct = pd.read_excel(file_path, "DC Direct")
+    dc_direct['Charge Head'] = dc_direct['Charge Head'].str.upper()
     of_2nd_leg = pd.read_excel(file_path, "OF 2nd Leg")
     dc_2nd_leg = pd.read_excel(file_path, "DC 2nd Leg")
+    dc_2nd_leg['Charge Head'] = dc_2nd_leg['Charge Head'].str.upper()
     agent = pd.read_excel(file_path, "Agent details")
 
     try:
