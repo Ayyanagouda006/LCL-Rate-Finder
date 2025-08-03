@@ -86,13 +86,14 @@ if st.session_state.result_dfs:
         diff = round(abs(of_value - target_rate), 2)
         if target_rate > calculated:
             if not diff == 0.0:
-                message = f"💡 Additional Destination Charges: **${diff}**"
+                message = f"💡 Reduction in Destination Charges: **${diff}**"
                 st.info(message)
             else:
                 message = ""
         elif target_rate < calculated:
             if not diff == 0.0:
-                message = f"💡 Reduction in Destination Charges: **${diff}**"
+                message = f"💡 Additional Destination Charges: **${diff}**"
+                
                 st.info(message)
             else:
                 message = ""

@@ -38,6 +38,7 @@ def build_port_lookup(file_path):
     return port_lookup
 
 def lclpricing(origin, destination, transhipment='Direct'):
+
     file_path = r"Data/LCL Pricing Navexel2 2.xlsx"
 
     # Load sheets
@@ -50,21 +51,24 @@ def lclpricing(origin, destination, transhipment='Direct'):
     agent = pd.read_excel(file_path, "Agent details")
 
 
-    of_direct_row = of_direct[
-        (of_direct["POL UNLOC"] == origin) & (of_direct["POD UNLOC"] == destination)
-    ]
-    if of_direct_row.empty:
-        return None
-
-    of_direct_rate = of_direct_row['MRG (Per W/M)'].values[0]
-    of_direct_bl = of_direct_row['MRG (Per BL)'].values[0]
-    of_direct_limit = of_direct_row['Limit'].values[0]
-    of_direct_1st = of_direct_row['1st Leg'].values[0]
-
     if transhipment != 'Direct':
+
+        of_direct_row = of_direct[
+            (of_direct["POL UNLOC"] == origin) & (of_direct["POD UNLOC"] == transhipment)
+        ]
+
+        if of_direct_row.empty:
+            return None
+
+        of_direct_rate = of_direct_row['MRG (Per W/M)'].values[0]
+        of_direct_bl = of_direct_row['MRG (Per BL)'].values[0]
+        of_direct_limit = of_direct_row['Limit'].values[0]
+        of_direct_1st = of_direct_row['1st Leg'].values[0]
+
         of_2nd_leg_row = of_2nd_leg[
             (of_2nd_leg["TS UNLOC"] == transhipment) & (of_2nd_leg["POD UNLOC"] == destination)
         ]
+
         if of_2nd_leg_row.empty:
             return None
         of_2nd_leg_rate = of_2nd_leg_row['MRG (Per W/M)'].values[0]
@@ -91,8 +95,22 @@ def lclpricing(origin, destination, transhipment='Direct'):
             "DC 2nd Leg(All in Rate)": dc_2nd_leg_match_allin,
             "Agent": agent_details
         }
+    
 
     else:
+
+        of_direct_row = of_direct[
+            (of_direct["POL UNLOC"] == origin) & (of_direct["POD UNLOC"] == destination)
+        ]
+
+        if of_direct_row.empty:
+            return None
+
+        of_direct_rate = of_direct_row['MRG (Per W/M)'].values[0]
+        of_direct_bl = of_direct_row['MRG (Per BL)'].values[0]
+        of_direct_limit = of_direct_row['Limit'].values[0]
+        of_direct_1st = of_direct_row['1st Leg'].values[0]
+
         dc_match = dc_direct[
             (dc_direct["POL UNLOC"] == origin) &
             (dc_direct["POD UNLOC"] == destination) &
