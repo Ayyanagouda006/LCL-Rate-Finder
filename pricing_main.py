@@ -103,32 +103,43 @@ if st.session_state.result_dfs:
             st.session_state.valid_upto = valid_upto.strftime("%Y-%m-%d")
 
         # ------------------ HTML Summary + Copy ------------------
-        def df_to_html_table(df, title):
-            return f"<h4>{title}</h4>" + df.to_html(index=False, border=1)
+        import streamlit as st
+        import streamlit.components.v1 as components
 
+        # Convert DataFrame to styled HTML table
+        def df_to_html_table(df, title):
+            return f"<h4>{title}</h4>" + df.to_html(index=False, border=1, escape=False)
+
+        # Build HTML parts of the summary
         summary_parts = [
-            f"<h3>LCL Pricing Summary</h3>",
+            "<h3>LCL Pricing Summary</h3>",
             f"<p><b>Origin:</b> {origin_input}</p>",
             f"<p><b>Destination:</b> {destination_input}</p>",
             f"<p><b>Transhipment:</b> {transhipment_input}</p>",
             f"<p><b>Valid Until:</b> {st.session_state.valid_upto}</p>",
             f"<p><b>Ocean Freight (Per W/M):</b> ${target_rate:.2f}</p>",
-            f"<p><b>{message}<p><b>"
+            f"<p><b>{message}</b></p>",  # ✅ fixed broken <p> tag
         ]
 
+        # Optional: Show Per BL if transhipment is Direct
         if transhipment_input == "Direct" and "target_of_bl" in st.session_state:
             summary_parts.append(f"<p><b>Ocean Freight (Per BL):</b> ${st.session_state.target_of_bl:.2f}</p>")
 
-        for df, label in [(dc_df, "Destination Charges (Charge-wise)"),
-                          (dc_allin_df, "Destination Charges (All-in)"),
-                          (dc2_df, "Destination Charges (Charge-wise 2nd Leg)"),
-                          (dc2_allin_df, "Destination Charges (All-in 2nd Leg)"),
-                          (agent_df, "Agent Details")]:
-            if df is not None:
+        # Append tables
+        for df, label in [
+            (dc_df, "Destination Charges (Charge-wise)"),
+            (dc_allin_df, "Destination Charges (All-in)"),
+            (dc2_df, "Destination Charges (Charge-wise 2nd Leg)"),
+            (dc2_allin_df, "Destination Charges (All-in 2nd Leg)"),
+            (agent_df, "Agent Details")
+        ]:
+            if df is not None and not df.empty:
                 summary_parts.append(df_to_html_table(df, label))
 
+        # Combine into one div with ID for clipboard
         full_html = "<div id='copyArea'>" + "".join(summary_parts) + "</div>"
 
+        # Add copy button with JavaScript clipboard access
         copy_button_html = f"""
         {full_html}
         <br>
@@ -151,7 +162,7 @@ if st.session_state.result_dfs:
         </script>
         """
 
-
-
+        # Display in UI
         with col2:
-            components.html(copy_button_html, height=400, scrolling=True)
+            components.html(copy_button_html, height=500, scrolling=True)
+
