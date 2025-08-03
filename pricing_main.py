@@ -85,11 +85,17 @@ if st.session_state.result_dfs:
         # 👉 Show conditional info just below All-in table & include in HTML summary
         diff = round(abs(of_value - target_rate), 2)
         if target_rate > calculated:
-            message = f"💡 Additional Destination Charges: **${diff}**"
-            st.info(message)
+            if not diff == 0.0:
+                message = f"💡 Additional Destination Charges: **${diff}**"
+                st.info(message)
+            else:
+                message = ""
         elif target_rate < calculated:
-            message = f"💡 Reduction in Destination Charges: **${diff}**"
-            st.info(message)
+            if not diff == 0.0:
+                message = f"💡 Reduction in Destination Charges: **${diff}**"
+                st.info(message)
+            else:
+                message = ""
         else:
             message = ""
 
@@ -103,8 +109,6 @@ if st.session_state.result_dfs:
             st.session_state.valid_upto = valid_upto.strftime("%Y-%m-%d")
 
         # ------------------ HTML Summary + Copy ------------------
-        import streamlit as st
-        import streamlit.components.v1 as components
 
         # Convert DataFrame to styled HTML table
         def df_to_html_table(df, title):
@@ -139,30 +143,7 @@ if st.session_state.result_dfs:
         # Combine into one div with ID for clipboard
         full_html = "<div id='copyArea'>" + "".join(summary_parts) + "</div>"
 
-        # Add copy button with JavaScript clipboard access
-        copy_button_html = f"""
-        {full_html}
-        <br>
-        <button onclick="copyToClipboard()">📋 Copy Rate Summary</button>
-
-        <script>
-        function copyToClipboard() {{
-            const content = document.getElementById("copyArea").innerHTML;
-            navigator.clipboard.write([
-                new ClipboardItem({{
-                    "text/html": new Blob([content], {{ type: "text/html" }})
-                }})
-            ]).then(function() {{
-                alert("✅ HTML summary copied with tables!");
-            }}, function(err) {{
-                alert("❌ Copy failed. Try using a supported browser.");
-                console.error("Clipboard copy failed:", err);
-            }});
-        }}
-        </script>
-        """
-
         # Display in UI
         with col2:
-            components.html(copy_button_html, height=500, scrolling=True)
+            components.html(full_html, height=500, scrolling=True)
 
