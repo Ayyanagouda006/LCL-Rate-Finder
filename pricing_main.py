@@ -15,7 +15,7 @@ with st.form("rate_form"):
     port_options = sorted(port_lookup.keys())
     origin_input = st.selectbox("Origin Port", options=port_options, index=port_options.index("Nhava Sheva") if "Nhava Sheva" in port_options else 0)
     destination_input = st.selectbox("Destination Port", options=port_options, index=port_options.index("Ho Chi Minh") if "Ho Chi Minh" in port_options else 1)
-    transhipment_input = st.selectbox("Transhipment Port (Optional)", options=["Direct"] + port_options, index=0)
+    transhipment_input = st.selectbox("Routing (Optional)", options=["Direct"] + port_options, index=0)
     submitted = st.form_submit_button("🔍 Get Rates")
 
 # ------------------ Handle Submission ------------------
@@ -56,12 +56,16 @@ if st.session_state.result_dfs:
         if transhipment_input == "Direct":
             bl_value = float(result_dfs.get("BL", 0) or 0)
             limit_value = float(result_dfs.get("Limit", 0) or 0)
-            calculated = of_value - limit_value
+        else:
+            bl_value = 0.0
+            limit_value = 0.0
 
-            with col2:
-                if bl_value not in (0.0, "", None) and not pd.isna(bl_value):
-                    target_bl = st.number_input("Target OF Rate (Per BL):", value=bl_value, step=1.0, format="%.2f", key="target_of_bl")
-                    st.markdown(f"### 🚢 Ocean Freight (Per BL) : ${target_bl:.2f}")
+        calculated = of_value - limit_value
+
+        with col2:
+            if bl_value not in (0.0, "", None) and not pd.isna(bl_value):
+                target_bl = st.number_input("Target OF Rate (Per BL):", value=bl_value, step=1.0, format="%.2f", key="target_of_bl")
+                st.markdown(f"### 🚢 Ocean Freight (Per BL) : ${target_bl:.2f}")
 
         # Show tables
         def show_table(title, df):
@@ -73,14 +77,24 @@ if st.session_state.result_dfs:
 
         dc_df = show_table("💰 Destination Charges (Charge-wise)", result_dfs.get("DC", pd.DataFrame()))
         dc_allin_df = show_table("💼 Destination Charges (All-in)", result_dfs.get("DC (All in Rate)", pd.DataFrame()))
+
         dc2_df = show_table("💰 Destination Charges (Charge-wise)", result_dfs.get("DC 2nd Leg", pd.DataFrame()))
         dc2_allin_df = show_table("💼 Destination Charges (All-in)", result_dfs.get("DC 2nd Leg(All in Rate)", pd.DataFrame()))
-        agent_df = show_table("🧾 Agent", result_dfs.get("Agent", pd.DataFrame()))
 
-        if transhipment_input == "Direct":
-            if target_rate < calculated:
-                diff = round(calculated - target_rate, 2)
-                st.info(f"💡 {'Reduction' if diff > 0 else 'Additional'} in Destination Charges: **${abs(diff)}**")
+
+        # 👉 Show conditional info just below All-in table & include in HTML summary
+        diff = round(abs(calculated - target_rate), 2)
+        if target_rate > calculated:
+            message = f"💡 Additional Destination Charges: **${diff}**"
+            st.info(message)
+        elif target_rate < calculated:
+            message = f"💡 Reduction in Destination Charges: **${diff}**"
+            st.info(message)
+        else:
+            message = ""
+
+
+        agent_df = show_table("🧾 Agent", result_dfs.get("Agent", pd.DataFrame()))
 
         # ------------------ Validity + Copy Section ------------------
         col1, col2 = st.columns([2, 1])
@@ -98,7 +112,8 @@ if st.session_state.result_dfs:
             f"<p><b>Destination:</b> {destination_input}</p>",
             f"<p><b>Transhipment:</b> {transhipment_input}</p>",
             f"<p><b>Valid Until:</b> {st.session_state.valid_upto}</p>",
-            f"<p><b>Ocean Freight (Per W/M):</b> ${target_rate:.2f}</p>"
+            f"<p><b>Ocean Freight (Per W/M):</b> ${target_rate:.2f}</p>",
+            f"<p><b>{message}<p><b>"
         ]
 
         if transhipment_input == "Direct" and "target_of_bl" in st.session_state:
@@ -121,15 +136,22 @@ if st.session_state.result_dfs:
 
         <script>
         function copyToClipboard() {{
-            const htmlContent = document.getElementById('copyArea').innerHTML;
-            const blob = new Blob([htmlContent], {{ type: 'text/html' }});
-            const data = [new ClipboardItem({{ 'text/html': blob }})];
-            navigator.clipboard.write(data).then(() => {{
-                alert("✅ Rate summary copied to clipboard!");
+            const content = document.getElementById("copyArea").innerHTML;
+            navigator.clipboard.write([
+                new ClipboardItem({{
+                    "text/html": new Blob([content], {{ type: "text/html" }})
+                }})
+            ]).then(function() {{
+                alert("✅ HTML summary copied with tables!");
+            }}, function(err) {{
+                alert("❌ Copy failed. Try using a supported browser.");
+                console.error("Clipboard copy failed:", err);
             }});
         }}
         </script>
         """
+
+
 
         with col2:
             components.html(copy_button_html, height=400, scrolling=True)
