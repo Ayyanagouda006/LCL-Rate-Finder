@@ -83,18 +83,21 @@ if st.session_state.result_dfs:
 
 
         # 👉 Show conditional info just below All-in table & include in HTML summary
-        diff = round(abs(calculated - target_rate), 2)
-        if target_rate > calculated:
-            if not diff == 0.0:
-                message = f"💡 Reduction in Destination Charges (Per W/M): **${diff}**"
-                st.info(message)
-            else:
-                message = ""
-        elif target_rate < calculated:
-            if not diff == 0.0:
-                message = f"💡 Additional Destination Charges (Per W/M): **${diff}**"
-                
-                st.info(message)
+        if target_rate != of_value:
+            diff = round(abs(calculated - target_rate), 2)
+            if target_rate > calculated:
+                if not diff == 0.0:
+                    message = f"💡 Reduction in Destination Charges (Per W/M): **${diff}**"
+                    st.info(message)
+                else:
+                    message = ""
+            elif target_rate < calculated:
+                if not diff == 0.0:
+                    message = f"💡 Additional Destination Charges (Per W/M): **${diff}**"
+                    
+                    st.info(message)
+                else:
+                    message = ""
             else:
                 message = ""
         else:
@@ -102,23 +105,24 @@ if st.session_state.result_dfs:
 
         # 👉 Show conditional info for BL just below OF info
         if bl_value not in (0.0, "", None) and not pd.isna(bl_value):
-            bl_diff = round(abs(bl_value - target_bl), 2)
-            if target_bl > bl_value:
-                if bl_diff != 0.0:
-                    bl_message = f"💡 Reduction in Destination Charges (Per BL): **${bl_diff}**"
-                    st.info(bl_message)
+            if target_bl != bl_value:
+                bl_diff = round(abs(bl_value - target_bl), 2)
+                if target_bl > bl_value:
+                    if bl_diff != 0.0:
+                        bl_message = f"💡 Reduction in Destination Charges (Per BL): **${bl_diff}**"
+                        st.info(bl_message)
+                    else:
+                        bl_message = ""
+                elif target_bl < bl_value:
+                    if bl_diff != 0.0:
+                        bl_message = f"💡 Additional Destination Charges (Per BL): **${bl_diff}**"
+                        st.info(bl_message)
+                    else:
+                        bl_message = ""
                 else:
                     bl_message = ""
-            elif target_bl < bl_value:
-                if bl_diff != 0.0:
-                    bl_message = f"💡 Additional Destination Charges (Per BL): **${bl_diff}**"
-                    st.info(bl_message)
-                else:
-                    bl_message = ""
-            else:
-                bl_message = ""
-
-
+        else:
+            bl_message = ""
 
         agent_df = show_table("🧾 Agent", result_dfs.get("Agent", pd.DataFrame()))
 
