@@ -227,7 +227,7 @@ elif selected_tab == "📁 Upload & Download":
             login = st.form_submit_button("🔐 Login")
 
         if login:
-            print("enteredemail:",email,"enteredpassword:",password)
+
             if email == VALID_EMAIL and password == VALID_PASSWORD:
                 st.session_state.authenticated = True
                 st.success("✅ Logged in successfully!")
