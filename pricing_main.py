@@ -86,19 +86,38 @@ if st.session_state.result_dfs:
         diff = round(abs(of_value - target_rate), 2)
         if target_rate > calculated:
             if not diff == 0.0:
-                message = f"💡 Reduction in Destination Charges: **${diff}**"
+                message = f"💡 Reduction in Destination Charges (Per W/M): **${diff}**"
                 st.info(message)
             else:
                 message = ""
         elif target_rate < calculated:
             if not diff == 0.0:
-                message = f"💡 Additional Destination Charges: **${diff}**"
+                message = f"💡 Additional Destination Charges (Per W/M): **${diff}**"
                 
                 st.info(message)
             else:
                 message = ""
         else:
             message = ""
+
+        # 👉 Show conditional info for BL just below OF info
+        if bl_value not in (0.0, "", None) and not pd.isna(bl_value):
+            bl_diff = round(abs(bl_value - target_bl), 2)
+            if target_bl > bl_value:
+                if bl_diff != 0.0:
+                    bl_message = f"💡 Reduction in Destination Charges (Per BL): **${bl_diff}**"
+                    st.info(bl_message)
+                else:
+                    bl_message = ""
+            elif target_bl < bl_value:
+                if bl_diff != 0.0:
+                    bl_message = f"💡 Additional Destination Charges (Per BL): **${bl_diff}**"
+                    st.info(bl_message)
+                else:
+                    bl_message = ""
+            else:
+                bl_message = ""
+
 
 
         agent_df = show_table("🧾 Agent", result_dfs.get("Agent", pd.DataFrame()))
@@ -107,7 +126,7 @@ if st.session_state.result_dfs:
         col1, col2 = st.columns([2, 1])
         with col1:
             valid_upto = st.date_input("Valid Upto", value=date.today())
-            st.session_state.valid_upto = valid_upto.strftime("%Y-%m-%d")
+            st.session_state.valid_upto = valid_upto.strftime("%d-%m-%Y")
 
         # ------------------ HTML Summary + Copy ------------------
 
@@ -120,26 +139,35 @@ if st.session_state.result_dfs:
             "<h3>LCL Pricing Summary</h3>",
             f"<p><b>Origin:</b> {origin_input}</p>",
             f"<p><b>Destination:</b> {destination_input}</p>",
-            f"<p><b>Transhipment:</b> {transhipment_input}</p>",
-            f"<p><b>Valid Until:</b> {st.session_state.valid_upto}</p>",
+            f"<p><b>Routing:</b> {transhipment_input}</p>",
+            f"<p><b>Valid To:</b> {st.session_state.valid_upto}</p>",
             f"<p><b>Ocean Freight (Per W/M):</b> ${target_rate:.2f}</p>",
-            f"<p><b>{message}</b></p>",  # ✅ fixed broken <p> tag
         ]
 
         # Optional: Show Per BL if transhipment is Direct
         if transhipment_input == "Direct" and "target_of_bl" in st.session_state:
             summary_parts.append(f"<p><b>Ocean Freight (Per BL):</b> ${st.session_state.target_of_bl:.2f}</p>")
 
-        # Append tables
+        # Append tables up to before Agent Details
         for df, label in [
             (dc_df, "Destination Charges (Charge-wise)"),
             (dc_allin_df, "Destination Charges (All-in)"),
             (dc2_df, "Destination Charges (Charge-wise 2nd Leg)"),
-            (dc2_allin_df, "Destination Charges (All-in 2nd Leg)"),
-            (agent_df, "Agent Details")
+            (dc2_allin_df, "Destination Charges (All-in 2nd Leg)")
         ]:
             if df is not None and not df.empty:
                 summary_parts.append(df_to_html_table(df, label))
+
+        # Insert messages before Agent Details
+        if message:
+            summary_parts.append(f"<p><b>{message}</b></p>")
+        if bl_value not in (0.0, "", None) and not pd.isna(bl_value):
+            summary_parts.append(f"<p><b>{bl_message}</b></p>")
+
+        # Append Agent Details table at the end
+        if agent_df is not None and not agent_df.empty:
+            summary_parts.append(df_to_html_table(agent_df, "Agent Details"))
+
 
         # Combine into one div with ID for clipboard
         full_html = "<div id='copyArea'>" + "".join(summary_parts) + "</div>"
