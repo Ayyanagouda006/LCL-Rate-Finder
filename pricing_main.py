@@ -8,8 +8,8 @@ from io import BytesIO
 import os
 
 EXCEL_FILE_PATH = "Data/LCL Pricing Navexel2 2.xlsx"
-VALID_EMAIL = "admin@example.com"
-VALID_PASSWORD = "securepass123"
+VALID_EMAIL = "preeti.patil@navexel.com"
+VALID_PASSWORD = "N@v3xC3l!4567%"
 
 port_lookup = build_port_lookup(EXCEL_FILE_PATH)
 
@@ -227,6 +227,7 @@ elif selected_tab == "📁 Upload & Download":
             login = st.form_submit_button("🔐 Login")
 
         if login:
+            print("enteredemail:",email,"enteredpassword:",password)
             if email == VALID_EMAIL and password == VALID_PASSWORD:
                 st.session_state.authenticated = True
                 st.success("✅ Logged in successfully!")
