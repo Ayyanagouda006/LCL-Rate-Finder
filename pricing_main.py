@@ -235,8 +235,6 @@ elif selected_tab == "📁 Upload & Download":
             else:
                 st.error("❌ Invalid credentials.")
     else:
-        st.subheader("📁 Upload & Download Panel")
-
         # Logout Button
         if st.button("🚪 Logout"):
             st.session_state.authenticated = False
@@ -245,7 +243,7 @@ elif selected_tab == "📁 Upload & Download":
         # Upload/Download Option Menu
         action = option_menu(
             menu_title=None,
-            options=["⬇️ Download Excel", "⬆️ Upload Pricing (coming soon)"],
+            options=["⬇️ Download Data", "⬆️ Upload Data"],
             icons=["download", "upload"],
             orientation="horizontal",
             styles={
@@ -261,7 +259,7 @@ elif selected_tab == "📁 Upload & Download":
         )
 
         # Download logic
-        if action == "⬇️ Download Excel":
+        if action == "⬇️ Download Data":
             try:
                 if os.path.exists(EXCEL_FILE_PATH):
                     with pd.ExcelFile(EXCEL_FILE_PATH) as xls:
@@ -274,7 +272,7 @@ elif selected_tab == "📁 Upload & Download":
                     output.seek(0)
 
                     st.download_button(
-                        label="📥 Download Full Excel File",
+                        label="📥 Download Full Data",
                         data=output,
                         file_name="LCL_Pricing_Full.xlsx",
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -284,7 +282,103 @@ elif selected_tab == "📁 Upload & Download":
             except Exception as e:
                 st.error(f"⚠️ Error during download: {e}")
 
-        elif action == "⬆️ Upload Pricing (coming soon)":
-            st.info("⏳ Upload functionality will be available in a future update.")
+
+
+        elif action == "⬆️ Upload Data":
+            REQUIRED_SHEETS = ["OF Direct", "DC Direct", "OF 2nd Leg", "DC 2nd Leg", "Agent details"]
+
+            uploaded_file = st.file_uploader("Upload Excel File", type=["xlsx"])
+            if uploaded_file:
+                try:
+                    # Step 1: Read Excel
+                    xls = pd.ExcelFile(uploaded_file)
+                    sheet_names = xls.sheet_names
+
+                    # Step 2: Validate required sheets
+                    missing_sheets = [sheet for sheet in REQUIRED_SHEETS if sheet not in sheet_names]
+                    if missing_sheets:
+                        st.error(f"❌ Missing required sheet(s): {', '.join(missing_sheets)}")
+                        st.stop()
+
+                    # Step 3: Validate individual sheets
+                    errors = []
+
+                    # --- OF Direct ---
+                    df_of = xls.parse("OF Direct")
+                    expected_cols_of = [
+                        "Agent", "Port of Loading", "POL UNLOC", "Port of Discharge", "POD UNLOC",
+                        "Currency", "MRG (Per W/M)", "MRG (Per BL)", "Limit", "1st Leg", "Remarks2"
+                    ]
+                    missing_cols = [col for col in expected_cols_of if col not in df_of.columns]
+                    if missing_cols:
+                        errors.append(f"❌ 'OF Direct' is missing columns: {', '.join(missing_cols)}")
+                    else:
+                        if not df_of["Currency"].eq("USD").all():
+                            errors.append("❌ 'OF Direct': All rows must have Currency as 'USD'.")
+                        for col in ["MRG (Per W/M)", "Limit", "1st Leg"]:
+                            if df_of[col].isnull().any():
+                                errors.append(f"❌ 'OF Direct': Column '{col}' contains blank or NaN values.")
+                            if not pd.to_numeric(df_of[col], errors="coerce").notnull().all():
+                                errors.append(f"❌ 'OF Direct': Column '{col}' must be numeric.")
+
+                    # --- DC Direct ---
+                    df_dc = xls.parse("DC Direct")
+                    expected_cols_dc = [
+                        "Agent", "Port of Loading", "POL UNLOC", "Port of Discharge", "POD UNLOC",
+                        "Charge Head", "Currency", "MRG (Per W/M)", "Remarks"
+                    ]
+                    missing_cols = [col for col in expected_cols_dc if col not in df_dc.columns]
+                    if missing_cols:
+                        errors.append(f"❌ 'DC Direct' is missing columns: {', '.join(missing_cols)}")
+
+                    # --- OF 2nd Leg ---
+                    df_of2 = xls.parse("OF 2nd Leg")
+                    expected_cols_of2 = [
+                        "Agent", "Reworking Port", "TS UNLOC", "Port of Discharge", "POD UNLOC",
+                        "Routing", "Currency", "MRG (Per W/M)", "Transit Time", "Remarks"
+                    ]
+                    missing_cols = [col for col in expected_cols_of2 if col not in df_of2.columns]
+                    if missing_cols:
+                        errors.append(f"❌ 'OF 2nd Leg' is missing columns: {', '.join(missing_cols)}")
+                    else:
+                        if not df_of2["Currency"].eq("USD").all():
+                            errors.append("❌ 'OF 2nd Leg': All rows must have Currency as 'USD'.")
+                        for col in ["MRG (Per W/M)", "Transit Time"]:
+                            if df_of2[col].isnull().any():
+                                errors.append(f"❌ 'OF 2nd Leg': Column '{col}' contains blank or NaN values.")
+                            if not pd.to_numeric(df_of2[col], errors="coerce").notnull().all():
+                                errors.append(f"❌ 'OF 2nd Leg': Column '{col}' must be numeric.")
+
+                    # --- Agent Details ---
+                    df_agent = xls.parse("Agent details")
+                    expected_cols_agent = [
+                        "Agent Name", "POL/ Reworking port", "POL/Reworking",
+                        "Port of Discharge", "POD", "Address", "Contact Person", "Email", "Phone"
+                    ]
+                    missing_cols = [col for col in expected_cols_agent if col not in df_agent.columns]
+                    if missing_cols:
+                        errors.append(f"❌ 'Agent details' is missing columns: {', '.join(missing_cols)}")
+
+                    # Final Validation
+                    if errors:
+                        for e in errors:
+                            st.error(e)
+                        st.warning("⚠️ Upload aborted due to validation errors.")
+                        st.stop()
+
+                    # Step 4: Overwrite existing Excel file
+                    with pd.ExcelWriter(EXCEL_FILE_PATH, engine="xlsxwriter") as writer:
+                        df_of.to_excel(writer, sheet_name="OF Direct", index=False)
+                        df_dc.to_excel(writer, sheet_name="DC Direct", index=False)
+                        df_of2.to_excel(writer, sheet_name="OF 2nd Leg", index=False)
+                        xls.parse("DC 2nd Leg").to_excel(writer, sheet_name="DC 2nd Leg", index=False)
+                        df_agent.to_excel(writer, sheet_name="Agent details", index=False)
+
+                    st.success("✅ Pricing file uploaded and validated successfully!")
+
+                except Exception as e:
+                    st.error(f"❌ Error processing file: {e}")
+
+
 
 
