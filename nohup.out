@@ -1,0 +1,223 @@
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8507
+  Network URL: http://172.31.40.84:8507
+  External URL: http://3.108.70.93:8507
+
+2025-08-02 14:03:27.014 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-02 14:03:42.354 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-02 14:03:49.511 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-02 14:03:56.798 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-02 14:04:29.432 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-03 05:47:36.497 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-03 05:47:53.219 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+2025-08-03 05:59:51.984 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 36, in <module>
+    st.session_state.result_dfs = lclpricing(origin, destination, transhipment)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py", line 52, in lclpricing
+    of_direct_rate = of_direct[
+IndexError: index 0 is out of bounds for axis 0 with size 0
+  Stopping...
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8507
+  Network URL: http://172.31.40.84:8507
+  External URL: http://3.108.70.93:8507
+
+  Stopping...
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8507
+  Network URL: http://172.31.40.84:8507
+  External URL: http://3.108.70.93:8507
+
+/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py:80: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  ][["Charge Head", "Currency", "MRG (Per W/M)", "Remarks"]].fillna("")
+/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py:80: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  ][["Charge Head", "Currency", "MRG (Per W/M)", "Remarks"]].fillna("")
+/home/ubuntu/LCL-Rate-Finder/pricing_calculator.py:80: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  ][["Charge Head", "Currency", "MRG (Per W/M)", "Remarks"]].fillna("")
+  Stopping...
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8507
+  Network URL: http://172.31.40.84:8507
+  External URL: http://3.108.70.93:8507
+
+  Stopping...
+
+Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
+
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8507
+  Network URL: http://172.31.40.84:8507
+  External URL: http://3.108.70.93:8507
+
+2025-08-04 06:28:19.527 Received event for non-watched file: /home/ubuntu/LCL-Rate-Finder/pricing_main.py
+2025-08-04 06:40:11.861 Received event for non-watched file: /home/ubuntu/LCL-Rate-Finder/pricing_main.py
+2025-08-04 06:41:01.689 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 169, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-04 13:20:28.563 Received event for non-watched file: /home/ubuntu/LCL-Rate-Finder/pricing_main.py
+2025-08-05 05:55:13.291 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-05 05:56:31.600 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-05 07:02:48.411 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-06 06:24:33.632 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-06 06:44:47.557 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-06 06:47:10.335 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
+2025-08-06 06:48:02.398 Uncaught app execution
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 121, in exec_func_with_error_handling
+    result = func()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 640, in code_to_exec
+    exec(code, module.__dict__)
+  File "/home/ubuntu/LCL-Rate-Finder/pricing_main.py", line 205, in <module>
+    summary_parts.append(f"<p><b>{bl_message}</b></p>")
+NameError: name 'bl_message' is not defined
