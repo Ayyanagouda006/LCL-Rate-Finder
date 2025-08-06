@@ -167,7 +167,7 @@ if selected_tab == "📦 Rate Finder":
             # ------------------ Validity + Copy Section ------------------
             col1, col2 = st.columns([2, 1])
             with col1:
-                valid_upto = st.date_input("Valid Upto", value=date.today())
+                valid_upto = st.date_input("Valid Till", value=date.today())
                 st.session_state.valid_upto = valid_upto.strftime("%d-%m-%Y")
 
             # ------------------ HTML Summary + Copy ------------------
@@ -182,7 +182,7 @@ if selected_tab == "📦 Rate Finder":
                 f"<p><b>Origin:</b> {origin_input}</p>",
                 f"<p><b>Destination:</b> {destination_input}</p>",
                 f"<p><b>Routing:</b> {transhipment_input}</p>",
-                f"<p><b>Valid To:</b> {st.session_state.valid_upto}</p>",
+                f"<p><b>Valid Till:</b> {st.session_state.valid_upto}</p>",
                 f"<p><b>Ocean Freight (Per W/M):</b> ${target_rate:.2f}</p>",
             ]
 
