@@ -157,6 +157,8 @@ if selected_tab == "📦 Rate Finder":
                             bl_message = ""
                     else:
                         bl_message = ""
+                else:
+                    bl_message = ""
             else:
                 bl_message = ""
 
