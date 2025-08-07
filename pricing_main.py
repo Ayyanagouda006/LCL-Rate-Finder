@@ -112,10 +112,10 @@ if selected_tab == "📦 Rate Finder":
                 return None
 
             dc_df = show_table("💰 Destination Charges (Charge-wise)", result_dfs.get("DC", pd.DataFrame()))
-            dc_allin_df = show_table("💼 Destination Charges (All-in)", result_dfs.get("DC (All in Rate)", pd.DataFrame()))
+            # dc_allin_df = show_table("💼 Destination Charges (All-in)", result_dfs.get("DC (All in Rate)", pd.DataFrame()))
 
             dc2_df = show_table("💰 Destination Charges (Charge-wise)", result_dfs.get("DC 2nd Leg", pd.DataFrame()))
-            dc2_allin_df = show_table("💼 Destination Charges (All-in)", result_dfs.get("DC 2nd Leg(All in Rate)", pd.DataFrame()))
+            # dc2_allin_df = show_table("💼 Destination Charges (All-in)", result_dfs.get("DC 2nd Leg(All in Rate)", pd.DataFrame()))
 
 
             # 👉 Show conditional info just below All-in table & include in HTML summary
@@ -193,9 +193,9 @@ if selected_tab == "📦 Rate Finder":
             # Append tables up to before Agent Details
             for df, label in [
                 (dc_df, "Destination Charges (Charge-wise)"),
-                (dc_allin_df, "Destination Charges (All-in)"),
+                # (dc_allin_df, "Destination Charges (All-in)"),
                 (dc2_df, "Destination Charges (Charge-wise 2nd Leg)"),
-                (dc2_allin_df, "Destination Charges (All-in 2nd Leg)")
+                # (dc2_allin_df, "Destination Charges (All-in 2nd Leg)")
             ]:
                 if df is not None and not df.empty:
                     summary_parts.append(df_to_html_table(df, label))
