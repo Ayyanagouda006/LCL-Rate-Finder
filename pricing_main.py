@@ -49,8 +49,8 @@ st.session_state.previous_tab = selected_tab
 if selected_tab == "📦 Rate Finder":
     with st.form("rate_form"):
         port_options = sorted(port_lookup.keys())
-        origin_input = st.selectbox("Origin Port", options=port_options, index=port_options.index("Nhava Sheva") if "Nhava Sheva" in port_options else 0)
-        destination_input = st.selectbox("Destination Port", options=port_options, index=port_options.index("Ho Chi Minh") if "Ho Chi Minh" in port_options else 1)
+        origin_input = st.selectbox("Origin Port", options=port_options, index=port_options.index("NHAVA SHEVA") if "NHAVA SHEVA" in port_options else 0)
+        destination_input = st.selectbox("Destination Port", options=port_options, index=port_options.index("HAMBURG") if "HAMBURG" in port_options else 1)
         transhipment_input = st.selectbox("Routing (Optional)", options=["Direct"] + port_options, index=0)
         submitted = st.form_submit_button("🔍 Get Rates")
 
